@@ -2,6 +2,7 @@ import urllib.request
 import json
 import random
 import os
+import sys
 
 image_ext = ['jpg', 'png']
 
@@ -30,12 +31,15 @@ try:
         image_urls += list(filter( checkValidity, list( map( getImage, posts) ) ) )
 except:
     num = len( image_urls )
-    print( "Reddit is mad about all the requests so we have to stop looking :( it's okay though we still have " + str(num) + " wallpapers to choose from!" )
-    
+    if num != 0:
+        print( "Reddit is mad about all the requests so we have to stop looking, it's okay though we still have " + str(num) + " wallpapers to choose from!" )
+    else:
+        print( "Reddit got mad about all the requests and kicked us out, try again in one second, sorry about that :(")
+        sys.exit()
 
 
     
-print( "Now Deciding on Wallpaper. . ." )
+print( "Now Deciding on the Wallpaper. . ." )
 rand_urls = random.sample( image_urls, len(store_images) )
 for rand_url, store_image in zip( rand_urls, store_images ):
     urllib.request.urlretrieve( rand_url, store_image )

@@ -3,10 +3,10 @@ import json
 import random
 import os
 import sys
-
-image_ext = ['jpg', 'png']
+import ctypes
 
 subreddits = ['/r/EarthPorn/top.json?limit=5', "/r/CityPorn/top.json?limit=5", "/r/wallpapers/top.json?limit=5", "/r/cats/top.json?limit=5"]
+#Must change store_images path to one on PC
 store_images = ['/home/joey/redditImages/redditWallpaper']
 image_urls = []
 
@@ -14,8 +14,7 @@ def getImage( post ):
     return post[ 'data' ][ 'url' ]
 
 def checkValidity( image_url ):
-    for ext in image_ext:
-        if image_url.endswith( ext ):
+    if image_url.endswith( 'jpg' ):
             return True
     return False
 
@@ -42,7 +41,13 @@ except:
 print( "Now Deciding on the Wallpaper. . ." )
 rand_urls = random.sample( image_urls, len(store_images) )
 for rand_url, store_image in zip( rand_urls, store_images ):
-    urllib.request.urlretrieve( rand_url, store_image )
+    urllib.request.urlretrieve( rand_url, store_image+".jpg" )
 print( "Setting Wallpaper. . . " )
-os.system("/usr/bin/gsettings set org.gnome.desktop.background picture-uri /home/joey/redditImages/redditWallpaper" )
+#Must change ending path to one on your pc
+if( os.name == "nt" ):
+    print("here")
+    ctypes.windll.user32.SystemParametersInfoW(20, 0, "C:/home/joey/redditImages/redditWallpaper.jpg", 3)
+else:   
+    os.system("/usr/bin/gsettings set org.gnome.desktop.background picture-uri /home/joey/redditImages/redditWallpaper" )
+    
 print( "Complete!" )

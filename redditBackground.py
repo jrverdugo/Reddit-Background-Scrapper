@@ -45,7 +45,6 @@ for rand_url, store_image in zip( rand_urls, store_images ):
 print( "Setting Wallpaper. . . " )
 #Must change ending path to one on your pc
 if( os.name == "nt" ):
-    print("here")
     ctypes.windll.user32.SystemParametersInfoW(20, 0, "C:/home/joey/redditImages/redditWallpaper.jpg", 3)
 else:   
     os.system("/usr/bin/gsettings set org.gnome.desktop.background picture-uri /home/joey/redditImages/redditWallpaper.jpg" )
